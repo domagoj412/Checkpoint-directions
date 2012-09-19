@@ -1,0 +1,132 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.1.0.min.css" media="all">
+    <link type="text/css" rel="stylesheet" href="css/mobile.css" />
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB8Z9WaSzmXchSrRlOyZWtgTBll1UYKcYk&sensor=true"></script>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).bind("mobileinit", function(){
+            $.mobile.page.prototype.options.addBackBtn= true;
+        });
+    </script>
+    <script type="text/javascript" src="js/jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript" src="js/demo.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.map.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.map.services.min.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+    <style type="text/css">
+        #choosen_content img {
+            border:3px solid #000;
+            max-width:95%;
+            max-height:75%
+        }
+        #yes_options li {
+            font-size: 13px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var mobileDemo = { 'center': '57.7973333,12.0502107', 'zoom': 10 };
+
+
+        $('#directions_map').live('pageinit', function() {
+            demo.add('directions_map', function() {
+                $('#map_canvas_1').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI':true, 'callback': function() {
+                    this.displayDirections({ 'origin': "44.089199,15.978514", 'destination': "45.32848,15.436405", 'travelMode': google.maps.DirectionsTravelMode.DRIVING }, { 'panel': document.getElementById('directions')}, function(response, status) {
+                        ( status === 'OK' ) ? $('#results').show() : $('#results').hide();
+                    });
+                }});
+            }).load('directions_map');
+        });
+
+        $('#directions_map').live('pageshow', function() {
+            $('#map_canvas_1').gmap('refresh');
+            demo.add('directions_map', $('#map_canvas_1').gmap('get', '57.7973333,12.0502107')).load('directions_map');
+        });
+
+
+    </script>
+</head>
+<body>
+
+<div data-role="page" id="main">
+
+    <div data-role="header" data-theme="b">
+
+        <h1>Page Title</h1>
+        <div data-role="navbar" data-theme="b">
+        </div><!-- /navbar -->
+    </div><!-- /header -->
+
+    <div data-role="content">
+        <input type="search" placeholder="Please type your destination address" name="search" id="search" value="" data-mini="true" />
+        <div id="results_sugg">
+        </div>
+    </div><!-- /content -->
+
+
+    <div data-role="footer" data-theme="b" style="text-align: center; padding: 5px">
+        <img src="js/images/powered-by-google-on-non-white.png">
+    </div><!-- /footer -->
+</div>
+
+
+<div data-role="page" id="choosen">
+
+    <div data-role="header" data-theme="b">
+
+        <h1>Page Title</h1>
+        <div data-role="navbar" data-theme="b">
+        </div><!-- /navbar -->
+    </div><!-- /header -->
+
+    <div data-role="content"  style="text-align: center;">
+        <div id="choosen_content"><img src="js/images/loading.gif"></div>
+        <div id="cnt_below_pic">
+            <div id="question"></div> <br>
+            <a id="no" href="#"  data-role="button" data-icon="minus" data-mini="true" data-inline="true">No</a>
+            <a id="yes" href="#" data-role="button" data-icon="check" data-mini="true" data-inline="true">Yes</a><br>
+            <a id="useless" style="text-decoration: none;font-size: 12px" href="#">Useless picture?</a>
+        </div>
+
+        <ul id="yes_options" style="margin-top:10%;display:none">
+            <li data-role="list-divider" role="heading" >Get direction from:</li>
+            <li><a id="from_picture" href="#directions_map">Picture point to your destination</a></li>
+            <li><a id="to_picture" href="#directions_map">Your current position to picture point</a></li>
+            <li><a id="from_current" href="#directions_map">Your current position to your destination</a></li>
+        </ul>
+
+
+    </div><!-- /content -->
+
+    <div data-role="footer" data-theme="b" style="text-align: center; padding: 5px">
+        <img src="js/images/powered-by-google-on-non-white.png">
+    </div><!-- /footer -->
+</div>
+
+<div id="directions_map" data-role="page">
+    <div data-role="header" data-theme="b">
+
+        <h1>Page Title</h1>
+        <div data-role="navbar" data-theme="b">
+        </div><!-- /navbar -->
+    </div><!-- /header -->
+    <div data-role="content">
+        <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+            <div id="map_canvas_1" style="height:300px;"></div>
+        </div>
+        <div id="results" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" style="display:none;">
+            <div class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined">Results</div>
+            <div id="directions"></div>
+            <div class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-bottom ui-btn-up-undefined"></div>
+        </div>
+    </div>
+    <div data-role="footer" data-theme="b" style="text-align: center; padding: 5px">
+        <img src="js/images/powered-by-google-on-non-white.png">
+    </div><!-- /footer -->
+</div>
+</body>
+</html>
